@@ -1,0 +1,17 @@
+# ROS2 colcon
+build/
+install/
+log/
+
+# IDE
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Data / checkpoints (add as needed)
+data/
+checkpoints/
+*.ckpt
