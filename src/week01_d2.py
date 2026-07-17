@@ -38,7 +38,7 @@ y = (x** 2).sum()  #sum of squares
 y.backward()
 print(x.grad)
 
-#关闭梯度计算
+#关闭梯度计算，避免在训练时计算梯度，减少内存占用
 with torch.no_grad():
     z = x * 2
     print(z.requires_grad)
@@ -60,14 +60,17 @@ for epoch in range(200):
 
     loss.backward()
 
-    with torch.no_grad():
-        w.data -= lr * w.grad
-        b.data -= lr * b.grad
-        w.grad.zero_()
-        b.grad.zero_()
+    with torch.no_grad():  #更新参数时不计算梯度，避免计算梯度时的内存占用
+        w.data -= lr * w.grad  #update weight
+        b.data -= lr * b.grad  #update bias
+        w.grad.zero_()  #zero out gradient for next epoch
+        b.grad.zero_()  #zero out gradient for next epoch
 
     if epoch % 50 == 0:
         print(f"Epoch {epoch:3d}, Loss: {loss.item():.4f}, w: {w.item():.4f}, b: {b.item():.4f}")
 
 print(f"True w: {true_w:.4f}, True b: {true_b:.4f}")
+
+
+
 

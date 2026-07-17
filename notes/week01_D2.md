@@ -45,4 +45,26 @@ torch.no_grad()用法：
     冻结参数（Transfer Learning/迁移学习）
     加速推理（Inference）
 
+MSE（Mean Squared Error, 均方误差损失）：均方误差损失函数是一种常用的损失函数，用于评估模型输出与真实标签之间的差异。
+    它的计算公式为：MSE = (y_pred - y_true)^2 / n，其中y_pred是模型输出，y_true是真实标签，n是样本数量。
+
+MAE（Mean Absolute Error, 均绝对误差损失）：均绝对误差损失函数是一种常用的损失函数，用于评估模型输出与真实标签之间的差异。
+    它的计算公式为：MAE = |y_pred - y_true| / n，其中y_pred是模型输出，y_true是真实标签，n是样本数量。
+
+为什么optimizer.zero_grad()必须在backward()之前调用？
+    因为在反向传播时，Pytorch会自动记录下所有张量的梯度。
+    如果在反向传播之前没有调用zero_grad()，那么在反向传播时，Pytorch会累加所有张量的梯度，而不是只计算当前样本的梯度。
+    这会导致模型参数的更新错误，因为模型参数的梯度会被累加，而不是被覆盖。
+
+手写梯度下降算法和nn.Linear + SGD实现线性回归对比：
+    手写梯度下降算法：在每个训练样本上，计算模型输出与真实标签之间的误差，然后根据误差更新模型参数，以最小化误差。
+    nn.Linear + SGD实现线性回归：使用Pytorch的nn.Linear层和SGD优化器，自动计算梯度并更新模型参数。
+
+autograd：自动微分机制
+    前向传播：pred = model(X) （算出预测值）
+    计算损失：loss = criterion(pred, Y) （算出误差）
+    梯度清零：optimizer.zero_grad() （清空上一轮的残存梯度）
+    反向传播：loss.backward() （计算当前梯度）
+    参数更新：optimizer.step() （根据梯度更新参数）
+
 
