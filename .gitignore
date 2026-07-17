@@ -5,6 +5,7 @@ log/
 
 # IDE
 .vscode/
+.trae/
 
 # Python
 __pycache__/
