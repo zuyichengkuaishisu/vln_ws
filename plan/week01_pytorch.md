@@ -225,7 +225,7 @@ for name, param in model.named_parameters():
 
 ### Hour 3 — 巩固
 
-- [ ] **练习 1**：把 MSE 改成 `L1 loss`，观察收敛差异
+- [ ] **练习 1**：把 MSE(均方误差) 改成 `L1 loss(MAE 绝对值误差)` ，观察收敛差异
 - [ ] **练习 2**：画 loss 曲线（matplotlib），保存 `d2_loss.png`
 - [ ] **练习 3**：解释 `optimizer.zero_grad()` 为什么必须在 `backward()` 前调用
 - [ ] 对比：手写梯度下降 vs `nn.Linear` + `SGD` 各有什么优劣
