@@ -26,3 +26,19 @@ class NeuralNetwork(nn.Module):
 
 model = NeuralNetwork().to(device) #将模型移动到指定设备上
 print(model)
+
+X = torch.randn(1, 28, 28, device=device)  #创建一个随机输入张量，形状为(1, 28, 28)
+logits = model(X)  #将输入张量传递给模型，得到输出
+print(logits)
+print(logits.shape)
+pred_probab = nn.Softmax(dim=1)(logits) #将logits转换为概率分布，dim=1表示对第1维进行归一化，如果dim=0，表示对第0维进行归一化，即对样本进行归一化
+print(pred_probab)
+print(pred_probab.shape)
+y_pred = torch.argmax(pred_probab, dim=1) 
+"""
+将概率分布转换为类别索引，返回概率最大的类别索引，dim=1返回每个样本的概率最大类别索引
+dim=0返回每个类别概率最大的样本索引
+就是纵向和横向看的区别，纵向代表样本，横向代表类别概率
+"""
+print(y_pred)
+print(y_pred.shape)
