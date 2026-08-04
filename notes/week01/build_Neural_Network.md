@@ -313,3 +313,22 @@ for name, param in model.named_parameters():
 ```
 
 这样可以看到每一层参数的名字和形状，有助于理解模型结构，也方便调试。
+
+Loss function 损失函数:给模型的输出和真实标签之间的差异进行量化，用于指导模型的训练过程。
+    最常用的Loss:交叉熵损失函数(Cross Entropy Loss)
+    loss_fn = nn.CrossEntropyLoss()
+    loss = loss_fn(logits, labels) #传入logits和真实标签
+    
+Optimizer 优化器:用于更新模型参数，使损失函数最小化,核心算法是梯度下降(Gradient Descent)
+    最常用的优化器:Adam优化器(Adam)
+    如何工作的：
+        1. 计算模型参数的梯度
+        2. 更新参数，步长为lr（学习率，learning rate）
+        3.反复重复以上步骤，直到模型的损失函数最小化
+
+    先定义优化器，再在训练循环中使用它
+    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+
+    optimizer.zero_grad() #调用优化器的zero_grad()方法，将所有参数的梯度设为0,不然每次更新参数时，梯度会累加，导致参数更新错误
+    loss.backward() #计算梯度
+    optimizer.step() #更新参数
