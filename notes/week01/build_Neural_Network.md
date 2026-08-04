@@ -199,3 +199,117 @@ probs = softmax(logits)
 
 - 训练时：通常直接把 `logits` 传给 `nn.CrossEntropyLoss`。
 - 推理时：如果你想把输出解释为概率，再额外使用 `Softmax`。
+
+## 什么是 `nn.Flatten`
+
+图像数据常见的形状是：
+
+```python
+[batch_size, height, width]
+```
+
+例如 MNIST 单张图片大小为 `28 x 28`，如果输入一个 batch，张量形状可能是：
+
+```python
+[3, 28, 28]
+```
+
+而全连接层 `nn.Linear` 期望输入的最后一维是特征维度，因此通常需要先把图片展平成一维向量：
+
+```python
+flatten = nn.Flatten()
+flatten_image = flatten(input_image)
+```
+
+展平后，形状会变成：
+
+```python
+[3, 784]
+```
+
+这里的 `784 = 28 x 28`。
+
+## 什么是 `nn.ReLU`
+
+`nn.ReLU` 是神经网络中最常见的激活函数之一，它的规则很简单：
+
+```math
+\text{ReLU}(x) = \max(0, x)
+```
+
+也就是说：
+
+- 输入大于 0 时，输出保持不变。
+- 输入小于等于 0 时，输出变为 0。
+
+它的作用是为网络引入非线性能力。如果网络里只有线性层，那么无论叠多少层，本质上仍然等价于一个线性变换。
+
+## 什么是 `nn.Sequential`
+
+`nn.Sequential` 是一个顺序容器，它会按照定义顺序依次执行各个子模块。
+
+例如：
+
+```python
+seq_modules = nn.Sequential(
+    nn.Flatten(),
+    nn.Linear(28 * 28, 20),
+    nn.ReLU(),
+    nn.Linear(20, 10),
+)
+```
+
+它等价于“上一层的输出作为下一层的输入”这一串操作，因此非常适合用来搭建结构简单、按顺序传播的网络。
+
+## 为什么要关注设备一致性
+
+在使用 GPU 时，模型参数和输入张量必须放在同一个设备上。
+
+例如：
+
+```python
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = model.to(device)
+input_image = input_image.to(device)
+```
+
+如果输入在 `cuda:0`，而某一层的参数还留在 CPU 上，就会报类似这样的错误：
+
+```python
+RuntimeError: Expected all tensors to be on the same device
+```
+
+因此，一个很重要的习惯是：
+
+- 要么把整个模型统一 `.to(device)`。
+- 要么确保模型中的每一层和输入数据都在同一设备上。
+
+## 如何查看模型参数
+
+神经网络中的线性层、卷积层等通常都带有可学习参数，例如：
+
+- 权重（weight）
+- 偏置（bias）
+
+这些参数会在训练过程中不断更新。PyTorch 会自动追踪 `nn.Module` 中注册的参数，我们可以用：
+
+```python
+model.parameters()
+```
+
+或：
+
+```python
+model.named_parameters()
+```
+
+来查看它们。
+
+例如：
+
+```python
+for name, param in model.named_parameters():
+    print(name, param.size())
+```
+
+这样可以看到每一层参数的名字和形状，有助于理解模型结构，也方便调试。

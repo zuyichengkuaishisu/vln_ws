@@ -1,11 +1,11 @@
 # W1：PyTorch 入门 — 每日跟敲清单
 
-> **跟敲清单**：配合 [`learning_plan.md`](learning_plan.md) 使用  
-> **个人笔记**：写到 [`notes/`](../notes/)（如 `week01.md`、`week01_review.md`）  
-> **本周目标**：理解 tensor / autograd / nn / DataLoader / GPU 训练，独立完成 MNIST 训练脚本  
+> **跟敲清单**：配合 [`learning_plan.md`](learning_plan.md) 使用\
+> **个人笔记**：写到 [`notes/`](../notes/)（如 `week01.md`、`week01_review.md`）\
+> **本周目标**：理解 tensor / autograd / nn / DataLoader / GPU 训练，独立完成 MNIST 训练脚本\
 > **时间**：每天 3h · **代码目录**：`scripts/week01/` · **环境**：Python 3.10+，PyTorch cu128，RTX 5090
 
----
+***
 
 ## 环境准备（D1 开始前完成）
 
@@ -30,7 +30,7 @@ pip install matplotlib jupyter ipython
 mkdir -p /home/zy/.wzy/vln_ws/scripts/week01
 ```
 
----
+***
 
 ## D1：张量基础 + SLAM 里的 SE(3)
 
@@ -130,7 +130,7 @@ python d1_tensors.py
 - [ ] 能解释 `shape` 每一维含义
 - [ ] 能写 SE(2) 变换而不查代码
 
----
+***
 
 ## D2：Autograd + 线性回归 from scratch
 
@@ -235,13 +235,13 @@ for name, param in model.named_parameters():
 - [ ] 能口述 autograd 四步：`zero_grad → forward → backward → step`
 - [ ] 线性回归 w/b 接近真值（误差 < 0.2）
 
----
+***
 
 ## D3：nn.Module + MNIST MLP
 
 ### Hour 1 — 理论
 
-- [ ] 阅读 [Build Model 教程](https://pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html)
+- [x] 阅读 [Build Model 教程](https://pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html)
 - [ ] 理解：`nn.Module`、`forward()`、`nn.Sequential`、loss、optimizer
 - [ ] MNIST：28×28 灰度图 → 784 维向量 → 10 类分类
 
@@ -329,24 +329,24 @@ for epoch in range(5):
 
 ### Hour 3 — 巩固
 
-- [ ] **实验 A**：`lr=1e-2` vs `1e-4`，记录 5 epoch 后 val_acc
+- [ ] **实验 A**：`lr=1e-2` vs `1e-4`，记录 5 epoch 后 val\_acc
 - [ ] **实验 B**：`batch_size=64` vs `512`，观察每 epoch 耗时与 loss 曲线
 - [ ] **实验 C**：去掉 `Normalize`，acc 是否下降？
 - [ ] 画训练/验证 loss 曲线 → `d3_loss_curve.png`
 - [ ] 记录实验结果到 `notes/week01.md` 下方表格
 
-| 实验 | 参数 | val_acc (5 epoch) | 备注 |
-|------|------|-------------------|------|
-| baseline | lr=1e-3, bs=64 | | |
-| A | lr=1e-2 | | |
-| B | bs=512 | | |
+| 实验       | 参数             | val\_acc (5 epoch) | 备注     |
+| -------- | -------------- | ------------------ | ------ |
+| baseline | lr=1e-3, bs=64 | <br />             | <br /> |
+| A        | lr=1e-2        | <br />             | <br /> |
+| B        | bs=512         | <br />             | <br /> |
 
 **D3 验收**
 
 - [ ] 5 epoch 后 test acc > 95%
 - [ ] 能解释 `CrossEntropyLoss` 与 `softmax` 的关系
 
----
+***
 
 ## D4：Dataset / DataLoader 深入
 
@@ -447,7 +447,7 @@ print("padded shape:", padded.shape)
 - [ ] 能独立写一个返回 `(image, label)` 的 Dataset 类
 - [ ] 能解释 `shuffle=True` 为什么只应在 train 使用
 
----
+***
 
 ## D5：GPU 训练 + 5090 吞吐测试
 
@@ -563,20 +563,20 @@ print("loaded epoch:", ckpt["epoch"])
 - [ ] 完整训练 MNIST 10 epoch（GPU），目标 test acc > 97%
 - [ ] 保存最佳 checkpoint 到 `scripts/week01/checkpoints/mnist_mlp_best.ckpt`
 
-| batch_size | samples/s | 是否 OOM |
-|------------|-----------|----------|
-| 64 | | |
-| 128 | | |
-| 256 | | |
-| 512 | | |
-| 1024 | | |
+| batch\_size | samples/s | 是否 OOM |
+| ----------- | --------- | ------ |
+| 64          | <br />    | <br /> |
+| 128         | <br />    | <br /> |
+| 256         | <br />    | <br /> |
+| 512         | <br />    | <br /> |
+| 1024        | <br />    | <br /> |
 
 **D5 验收**
 
 - [ ] 训练全程在 GPU 上，无 device 报错
 - [ ] 能正确 save / load 模型并继续推理
 
----
+***
 
 ## D6：综合复习 — 闭卷重写 MNIST
 
@@ -599,13 +599,13 @@ print("loaded epoch:", ckpt["epoch"])
 ### Hour 3 — 对比与 debug
 
 - [ ] 与 D3 代码 diff，找出遗漏（常见：`zero_grad` 位置、`model.eval()`、`.to(device)`）
-- [ ] 修复直到 val_acc 与 D3 接近（差距 < 1%）
+- [ ] 修复直到 val\_acc 与 D3 接近（差距 < 1%）
 
 **D6 验收**
 
-- [ ] 闭卷脚本可运行，5 epoch val_acc > 95%
+- [ ] 闭卷脚本可运行，5 epoch val\_acc > 95%
 
----
+***
 
 ## D7：Weekly Review + W1 复盘
 
@@ -643,7 +643,7 @@ print("loaded epoch:", ckpt["epoch"])
 - 还不清楚、W2 要继续学的
 - 与 SLAM 工作的联系（2 点）
 
----
+***
 
 ## W1 总验收 checklist
 
@@ -655,19 +655,19 @@ print("loaded epoch:", ckpt["epoch"])
 - [ ] 理解 tensor / autograd / nn.Module / DataLoader / GPU
 - [ ] 完成 W1 复盘 → `notes/week01_review.md`
 
----
+***
 
 ## 常见问题速查
 
-| 报错 | 原因 | 解决 |
-|------|------|------|
-| `Expected object of scalar type Long` | labels 不是 int64 | `labels.long()` |
-| `CUDA out of memory` | batch 太大 | 减小 batch_size |
-| `gradients are None` | 忘记 `requires_grad` 或用了 `no_grad` | 检查上下文 |
-| loss 不变 | lr 太小或忘记 `step()` | 检查 optimizer |
-| acc 随机猜 | 忘记 `model.train()` 或 label 错位 | 逐行 debug 一个 batch |
+| 报错                                    | 原因                               | 解决                |
+| ------------------------------------- | -------------------------------- | ----------------- |
+| `Expected object of scalar type Long` | labels 不是 int64                  | `labels.long()`   |
+| `CUDA out of memory`                  | batch 太大                         | 减小 batch\_size    |
+| `gradients are None`                  | 忘记 `requires_grad` 或用了 `no_grad` | 检查上下文             |
+| loss 不变                               | lr 太小或忘记 `step()`                | 检查 optimizer      |
+| acc 随机猜                               | 忘记 `model.train()` 或 label 错位    | 逐行 debug 一个 batch |
 
----
+***
 
 ## 下一周预告（W2）
 
