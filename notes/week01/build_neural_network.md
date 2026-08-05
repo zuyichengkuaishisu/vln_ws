@@ -314,21 +314,70 @@ for name, param in model.named_parameters():
 
 这样可以看到每一层参数的名字和形状，有助于理解模型结构，也方便调试。
 
-Loss function 损失函数:给模型的输出和真实标签之间的差异进行量化，用于指导模型的训练过程。
-    最常用的Loss:交叉熵损失函数(Cross Entropy Loss)
-    loss_fn = nn.CrossEntropyLoss()
-    loss = loss_fn(logits, labels) #传入logits和真实标签
-    
-Optimizer 优化器:用于更新模型参数，使损失函数最小化,核心算法是梯度下降(Gradient Descent)
-    最常用的优化器:Adam优化器(Adam)
-    如何工作的：
-        1. 计算模型参数的梯度
-        2. 更新参数，步长为lr（学习率，learning rate）
-        3.反复重复以上步骤，直到模型的损失函数最小化
+## 什么是损失函数（Loss Function）
 
-    先定义优化器，再在训练循环中使用它
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+损失函数用于衡量“模型预测”和“真实标签”之间的差异。训练的目标，就是让这个差异尽可能小。
 
-    optimizer.zero_grad() #调用优化器的zero_grad()方法，将所有参数的梯度设为0,不然每次更新参数时，梯度会累加，导致参数更新错误
-    loss.backward() #计算梯度
-    optimizer.step() #更新参数
+在分类任务中，最常见的损失函数之一是交叉熵损失（Cross Entropy Loss）：
+
+```python
+loss_fn = nn.CrossEntropyLoss()
+loss = loss_fn(logits, labels)
+```
+
+这里：
+
+- `logits` 是模型输出的原始分数。
+- `labels` 是真实标签。
+- `loss` 是当前这一次预测与真实结果之间的误差大小。
+
+损失值越小，通常说明模型当前预测得越接近真实答案。
+
+## 什么是优化器（Optimizer）
+
+优化器用于根据损失函数的结果来更新模型参数，从而让模型逐步学得更好。
+
+它背后的核心思想通常可以理解为梯度下降（Gradient Descent）及其变体。常见优化器有：
+
+- `SGD`
+- `Adam`
+
+例如，使用 Adam 优化器可以这样写：
+
+```python
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+```
+
+其中：
+
+- `model.parameters()` 表示要优化的模型参数。
+- `lr` 是学习率（learning rate），决定每次参数更新的步长大小。
+
+## 一次典型训练步骤
+
+在训练循环中，常见流程如下：
+
+```python
+optimizer.zero_grad()
+loss.backward()
+optimizer.step()
+```
+
+它们分别表示：
+
+1. `optimizer.zero_grad()`：把上一轮累积的梯度清零。
+2. `loss.backward()`：根据当前损失计算各参数的梯度。
+3. `optimizer.step()`：根据梯度更新模型参数。
+
+之所以每轮都要先执行 `zero_grad()`，是因为 PyTorch 默认会对梯度进行累加；如果不手动清零，梯度会把前几轮的结果也叠加进去，导致参数更新不符合预期。
+
+## 训练过程的直观理解
+
+可以把训练过程理解为不断重复下面这几步：
+
+1. 输入数据，得到模型输出。
+2. 计算预测结果与真实标签之间的损失。
+3. 通过反向传播计算梯度。
+4. 使用优化器更新参数。
+
+重复很多轮之后，模型参数会逐渐调整到更合适的状态，使损失整体下降、预测效果逐步提升。

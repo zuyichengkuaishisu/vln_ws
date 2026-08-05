@@ -242,8 +242,8 @@ for name, param in model.named_parameters():
 ### Hour 1 — 理论
 
 - [x] 阅读 [Build Model 教程](https://pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html)
-- [ ] 理解：`nn.Module`、`forward()`、`nn.Sequential`、loss、optimizer
-- [ ] MNIST：28×28 灰度图 → 784 维向量 → 10 类分类
+- [x] 理解：`nn.Module`、`forward()`、`nn.Sequential`、loss、optimizer
+- [x] MNIST：28×28 灰度图 → 784 维向量 → 10 类分类
 
 ### Hour 2 — 跟敲 `scripts/week01/d3_mnist_mlp.py`
 
@@ -329,22 +329,22 @@ for epoch in range(5):
 
 ### Hour 3 — 巩固
 
-- [ ] **实验 A**：`lr=1e-2` vs `1e-4`，记录 5 epoch 后 val\_acc
+- [x] **实验 A**：`lr=1e-2` vs `1e-4`，记录 5 epoch 后 val\_acc
 - [ ] **实验 B**：`batch_size=64` vs `512`，观察每 epoch 耗时与 loss 曲线
-- [ ] **实验 C**：去掉 `Normalize`，acc 是否下降？
+- [ ] **实验 C**：去掉 `Normalize`，acc 是否下降？是的，loss增加，acc下降，说明标准化的重要性
 - [ ] 画训练/验证 loss 曲线 → `d3_loss_curve.png`
 - [ ] 记录实验结果到 `notes/week01.md` 下方表格
 
 | 实验       | 参数             | val\_acc (5 epoch) | 备注     |
 | -------- | -------------- | ------------------ | ------ |
-| baseline | lr=1e-3, bs=64 | <br />             | <br /> |
-| A        | lr=1e-2        | <br />             | <br /> |
-| B        | bs=512         | <br />             | <br /> |
+| baseline | lr=1e-3, bs=64 |  0.975             | <br /> |
+| A        | lr=1e-2、1e-4   | 0.948 , 0.976      | <br /> |
+| B        | bs=512         | 0.9790             | <br /> |
 
 **D3 验收**
 
-- [ ] 5 epoch 后 test acc > 95%
-- [ ] 能解释 `CrossEntropyLoss` 与 `softmax` 的关系
+- [x] 5 epoch 后 test acc > 95%
+- [x] 能解释 `CrossEntropyLoss` 与 `softmax` 的关系
 
 ***
 
